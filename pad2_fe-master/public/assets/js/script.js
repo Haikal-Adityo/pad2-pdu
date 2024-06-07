@@ -303,5 +303,5 @@ var myChart4 = new Chart(ctx4, {
 
 fetchData(); // Call initially
 
-setInterval(fetchData, 5000); // Call every 5 seconds
+setInterval(fetchData, 1000); // Call every 5 seconds
 

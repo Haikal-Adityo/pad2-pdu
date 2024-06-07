@@ -115,9 +115,9 @@ input[type="password"]:focus {
 }
 
 /* sidebar */
-nav {
+/* nav {
     margin-left: 70px;
-}
+} */
 
 .sidebar {
     margin-left: 80px;
