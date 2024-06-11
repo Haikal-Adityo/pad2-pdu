@@ -35,14 +35,14 @@
 
             <div class="flex items-center justify-end mt-4 mb-5">
                 @if (Route::has('password.request'))
-                <a class="underline text-sm text-dark" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+                    <a class="underline text-sm text-dark" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
                 @endif
             </div>
             <hr>
             <div class="text-center my-4">
-                Already have an account?
+                Don't have an account?
                 <a href="{{ route('register') }}" class="btn btn-warning" style="text-decoration: none;">
                     {{ __('Sign Up') }}
                 </a>

@@ -12,127 +12,127 @@
                         <div class="col-md-3 satuan">m</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">AirRate</div>
                         <div class="col-md-4 nilai air_rate">null</div>
                         <div class="col-md-3 satuan">scfm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">MudCondIn</div>
                         <div class="col-md-4 nilai mud_cond_in">null</div>
                         <div class="col-md-3 satuan">m</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">BlockPos</div>
                         <div class="col-md-4 nilai block_pos">null</div>
                         <div class="col-md-3 satuan">m</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">WOB</div>
                         <div class="col-md-4 nilai wob">null</div>
                         <div class="col-md-3 satuan">klb</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">ROP</div>
                         <div class="col-md-4 nilai rop">null</div>
                         <div class="col-md-3 satuan">m/hr</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Bv Depth</div>
                         <div class="col-md-4 nilai bv_depth">null</div>
                         <div class="col-md-3 satuan">m</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">MudCondOut</div>
                         <div class="col-md-4 nilai mud_cond_out">null</div>
                         <div class="col-md-3 satuan">mmho</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Torque</div>
                         <div class="col-md-4 nilai torque">null</div>
                         <div class="col-md-3 satuan">klbft</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">RPM</div>
                         <div class="col-md-4 nilai rpm">null</div>
                         <div class="col-md-3 satuan">rpm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Hookload</div>
                         <div class="col-md-4 nilai hookload">null</div>
                         <div class="col-md-3 satuan">klb</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Log Depth</div>
                         <div class="col-md-4 nilai log_depth">null</div>
                         <div class="col-md-3 satuan">m</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">H2S-1</div>
                         <div class="col-md-4 nilai h2s_1">null</div>
                         <div class="col-md-3 satuan">ppm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">MudFlowOut</div>
                         <div class="col-md-4 nilai mud_flow_out">null</div>
                         <div class="col-md-3 satuan">gpm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Total SPM</div>
                         <div class="col-md-4 nilai total_spm">null</div>
                         <div class="col-md-3 satuan">spm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Standpipe Press</div>
                         <div class="col-md-4 nilai standpipe_press">null</div>
                         <div class="col-md-3 satuan">psi</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">MudFlowIn</div>
                         <div class="col-md-4 nilai mud_flow_in">null</div>
                         <div class="col-md-3 satuan">spm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">CO2-1</div>
                         <div class="col-md-4 nilai co2_1">null</div>
                         <div class="col-md-3 satuan">spm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Gas</div>
                         <div class="col-md-4 nilai gas">null</div>
                         <div class="col-md-3 satuan">spm</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">MudTempIn</div>
                         <div class="col-md-4 nilai mud_temp_in">null</div>
                         <div class="col-md-3 satuan">&deg;C</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">MudTempOut</div>
                         <div class="col-md-4 nilai mud_temp_out">null</div>
                         <div class="col-md-3 satuan">&deg;C</div>
                     </div>
 
-                    <div class="row mt-2">
+                    <div class="row" style="margin-top: 13px;">
                         <div class="col-md-5 nama">Tank Vol.</div>
                         <div class="col-md-4 nilai tank_vol">null</div>
                         <div class="col-md-3 satuan">sbbl</div>
