@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <img src="assets/img/logo.png" alt="Logo" height="30">
+        <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" height="30">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -49,10 +49,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="margin-left: 32px; color: rgba(41, 38, 65, 0.50);">Date</a>
+                    <a class="nav-link" style="margin-left: 32px; color: rgba(41, 38, 65, 0.50);">Date</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="currentDateTime"></a>
+                    <a class="nav-link" id="currentDateTime"></a>
                 </li>
             </ul>
         </div>

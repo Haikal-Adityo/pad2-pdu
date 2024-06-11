@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function() {
+Route::get('/dashboard', function () {
     return view('dashboard');
 })
     ->middleware(['auth', 'verified'])
@@ -19,4 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/history', function () {
+    return view('history');
+})->name('history');
 require __DIR__ . '/auth.php';

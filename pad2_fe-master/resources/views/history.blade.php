@@ -6,15 +6,15 @@
         <!--* Sidebar -->
         <div class="row mt-3 sidebar">
             <div class="col-md-1 bg-white pt-5" style="width: 4%;">
-                <div class="d-flex flex-column align-items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <div class="d-flex align-items-center justify-content-center aktif">
+                <div class="d-flex flex-column align-items-center icon-link ">
+                    <a href=" {{ route('dashboard') }}">
+                        <div class="d-flex align-items-center justify-content-center">
                             <img src=" {{ asset('assets/img/monitor.png') }}" alt="logo"
                                 style="width: 35px; height: 35px;">
                         </div>
                     </a>
                     <a href="{{ route('history') }}">
-                        <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center aktif">
                             <img src="{{ asset('assets/img/history.png') }}" alt="logo"
                                 style="width: 60px; height: 60px;">
                         </div>
@@ -23,6 +23,17 @@
             </div>
 
             <div class="col-md-11" style="width: 96%;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                Date
+                            </span>
+                            <input type="date" class="form-control" id="currentDateTime" aria-label="Date"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="wrap">
