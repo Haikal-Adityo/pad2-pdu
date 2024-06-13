@@ -12,7 +12,7 @@
 
             <!-- Name -->
             <div>
-                <x-input-label for="name" :value="__('Name')" /> <br>
+                <x-input-label for="name" :value="__('Company Name')" /> <br>
                 <x-text-input id="name" type="text" name="name" :value="old('name')" required autofocus
                     autocomplete="name" />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -48,9 +48,15 @@
                     {{ __('Register') }}
                 </x-primary-button>
 
-                <a href="{{ route('login') }}" style="color: black;">
+                <!-- <a href="{{ route('login') }}" style="color: black;">
                     {{ __('Already registered?') }}
-                </a>
+                </a> -->
+                <div class="text-center my-4">
+                    Already have an account?
+                    <a href="{{ route('login') }}" class="btn btn-warning" style="text-decoration: none;">
+                        {{ __('Login') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
