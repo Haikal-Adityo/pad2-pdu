@@ -4,7 +4,6 @@
     $_EXTERNAL_API_PORT = "8020";
     $_EXTERNAL_API_EP = "drill_data/";
     $_EXTERNAL_API_TABLE = "test_table";
-
     $_INTERNAL_DB_TABLE = "test_table";
 
     $_TABLE_COLUMNS = array(
