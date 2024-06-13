@@ -1,91 +1,119 @@
 <?php
-require_once "config.php";
-$request_method = $_SERVER["REQUEST_METHOD"];
+require_once "config2.php";
+require_once "env.php";
+require_once "time_manager.php";
 
-if($request_method == "GET") {
-    
-    global $mysqli;
-    $url = 'http://localhost:8080/drill_data/';
-    $data = file_get_contents($url);
-    $drill_data = json_decode($data, true);
 
-    if ($drill_data === null) {
-        echo "ERROR: Failed to decode JSON data.";
-        exit;
-    }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    if (empty($drill_data)) {
-        echo "No drill data available.";
-        exit;
-    }
 
-    foreach ($drill_data as $drill) {
-        $id = $drill['id'];
-        $data_date = $drill['data_date'];
-        $data_time = $drill['data_time'];
+global $mysqli;
+global $_EXTERNAL_API_HOST, $_EXTERNAL_API_PORT, $_EXTERNAL_API_EP;
+global $_INTERNAL_DB_TABLE;
+global $_TABLE_COLUMNS;
+global $current_date_upper, $current_date_lower;
+global $current_time_upper, $current_time_lower;
 
-        
-        // Create DateTime objects for comparison
-        $system_time = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
-        $data_time_obj = new DateTime($data_time, new DateTimeZone('Asia/Jakarta'));
-        
-        echo "System time: " . $system_time->format('Y-m-d H:i:s') . "<br>";
+$dest = "$_EXTERNAL_API_HOST:$_EXTERNAL_API_PORT/$_EXTERNAL_API_EP";
 
-        // Calculate the time span for comparison
-        $start_time = clone $system_time;
-        $start_time->sub(new DateInterval('PT10S'));
-        
-        if ($data_time_obj >= $start_time && $data_time_obj <= $system_time) {
-            $check_query = "SELECT id FROM test_table WHERE id = '$id'";
-            $result = mysqli_query($mysqli, $check_query);
+$data = [
+    "current_date_upper" => $current_date_upper,
+    "current_time_upper" => $current_time_upper,
+    "current_date_lower" => $current_date_lower,
+    "current_time_lower" => $current_time_lower
+];
 
-            if (mysqli_num_rows($result) > 0) {
-                echo "Record with id $id already exists. Skipping insertion.<br>";
-                continue;
-            }
+$jsonPackage = json_encode($data);
 
-            $bit_depth_m = $drill['bit_depth'];
-            $scfm = $drill['scfm'];
-            $mud_cond_in_mmho = $drill['mud_cond_in_mmho'];
-            $block_pos_m = $drill['block_pos_m'];
-            $wob_klb = $drill['wob_klb'];
-            $bvdepth_m = $drill['bvdepth_m'];
-            $mud_cond_out_mmho = $drill['mud_cond_out_mmho'];
-            $torque_klbft = $drill['torque_klbft'];
-            $rpm = $drill['rpm'];
-            $hkld_klb = $drill['hkld_klb'];
-            $log_depth_m = $drill['log_depth_m'];
-            $h2s_1_ppm = $drill['h2s_1_ppm'];
-            $mud_flow_outp = $drill['mud_flow_outp'];
-            $totspm = $drill['totspm'];
-            $sp_press_psi = $drill['sp_press_psi'];
-            $mud_flow_in_gpm = $drill['mud_flow_in_gpm'];
-            $co2_1_perct = $drill['co2_1_perct'];
-            $gas_perct = $drill['gas_perct'];
-            $mud_temp_out_c = $drill['mud_temp_out_c'];
-            $mud_temp_in_c = $drill['mud_temp_in_c'];
-            $tank_vol_tot_bbl = $drill['tank_vol_tot_bbl'];
-            $ropi_m_hr = $drill['ropi_m_hr'];
+$ch = curl_init($dest);
 
-            $sql = "INSERT INTO test_table (id, data_date, data_time, bit_depth_m, scfm, mud_cond_in_mmho, 
-                    block_pos_m, wob_klb, bvdepth_m, mud_cond_out_mmho, torque_klbft, rpm, hkld_klb, 
-                    log_depth_m, h2s_1_ppm, mud_flow_outp, totspm, sp_press_psi, mud_flow_in_gpm, 
-                    co2_1_perct, gas_perct, mud_temp_out_c, mud_temp_in_c, tank_vol_tot_bbl, ropi_m_hr) 
-                    VALUES ('$id', '$data_date', '$data_time', '$bit_depth_m', '$scfm', '$mud_cond_in_mmho', 
-                    '$block_pos_m', '$wob_klb', '$bvdepth_m', '$mud_cond_out_mmho', '$torque_klbft', '$rpm', 
-                    '$hkld_klb', '$log_depth_m', '$h2s_1_ppm', '$mud_flow_outp', '$totspm', '$sp_press_psi', 
-                    '$mud_flow_in_gpm', '$co2_1_perct', '$gas_perct', '$mud_temp_out_c', '$mud_temp_in_c', 
-                    '$tank_vol_tot_bbl', '$ropi_m_hr')";
-            
-            if (mysqli_query($mysqli, $sql)) {
-                echo "Record inserted successfully.<br>";
-            } else {
-                echo "ERROR: Could not execute $sql. " . mysqli_error($mysqli) . "<br>";
-            }
-        } else {
-            echo "Record with id $id does not match the time criteria. Skipping.<br>";
-        }
-    }
-} else {
-    header("HTTP/1.0 405 Method Not Allowed");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonPackage);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($jsonPackage)
+]);
+
+
+$response = curl_exec($ch);
+
+if($response == false) {
+    $error = curl_error($ch);
+    curl_close($ch);
+    die("curl error: $error");
 }
+
+curl_close($ch);
+
+$responseData = json_decode($response, true);
+if($responseData == null) {
+    echo "Error: Failed to decode JSON data";
+} 
+
+if(empty($responseData)) {
+    echo "No data found";
+}
+
+foreach($responseData as $drill) {
+    $data_date = $drill[$_TABLE_COLUMNS[0]];
+    $data_time = $drill[$_TABLE_COLUMNS[1]];
+
+
+    $checkQuery = "SELECT {$_TABLE_COLUMNS[0]}, {$_TABLE_COLUMNS[1]} from test_table 
+    WHERE {$_TABLE_COLUMNS[0]} = '$data_date' AND {$_TABLE_COLUMNS[1]} = '$data_time';";
+
+    $checkResult = null;
+    try {
+        $checkResult = $mysqli->query($checkQuery);
+    } catch (mysqli_sql_exception $e) {
+        echo "Error: $e <br>";
+    }
+
+    if(mysqli_num_rows($checkResult) > 0) {
+        // echo "Data already exists, on date $data_date and time $data_time <br>";
+        continue;
+    }
+
+    $bit_depth_m = $drill[$_TABLE_COLUMNS[2]];
+    $scfm = $drill[$_TABLE_COLUMNS[3]];
+    $mud_cond_in_mmho = $drill[$_TABLE_COLUMNS[4]];
+    $block_pos_m = $drill[$_TABLE_COLUMNS[5]];
+    $wob_klb = $drill[$_TABLE_COLUMNS[6]];
+    $bvdepth_m = $drill[$_TABLE_COLUMNS[7]];
+    $mud_cond_out_mmho = $drill[$_TABLE_COLUMNS[8]];
+    $torque_klbft = $drill[$_TABLE_COLUMNS[9]];
+    $rpm = $drill[$_TABLE_COLUMNS[10]];
+    $totspm = $drill[$_TABLE_COLUMNS[11]];
+    $sp_press_psi = $drill[$_TABLE_COLUMNS[12]];
+    $mud_flow_in_gpm = $drill[$_TABLE_COLUMNS[13]];
+    $co2_1_perct = $drill[$_TABLE_COLUMNS[14]];
+    $gas_perct = $drill[$_TABLE_COLUMNS[15]];
+    $mud_temp_out_c = $drill[$_TABLE_COLUMNS[16]];
+    $mud_temp_in_c = $drill[$_TABLE_COLUMNS[17]];
+    $tank_vol_tot_bbl = $drill[$_TABLE_COLUMNS[18]];
+    $ropi_m_hr = $drill[$_TABLE_COLUMNS[19]];
+    $hkld_klb = $drill[$_TABLE_COLUMNS[20]];
+    $log_depth_m = $drill[$_TABLE_COLUMNS[21]];
+    $h2s_1_ppm = $drill[$_TABLE_COLUMNS[22]];
+    $mud_flow_outp = $drill[$_TABLE_COLUMNS[23]];
+
+    $sql = "INSERT INTO test_table ({$_TABLE_COLUMNS[0]}, {$_TABLE_COLUMNS[1]}, {$_TABLE_COLUMNS[2]}, {$_TABLE_COLUMNS[3]}, {$_TABLE_COLUMNS[4]}, 
+    {$_TABLE_COLUMNS[5]}, {$_TABLE_COLUMNS[6]}, {$_TABLE_COLUMNS[7]}, {$_TABLE_COLUMNS[8]}, {$_TABLE_COLUMNS[9]}, {$_TABLE_COLUMNS[10]},
+    {$_TABLE_COLUMNS[11]}, {$_TABLE_COLUMNS[12]}, {$_TABLE_COLUMNS[13]}, {$_TABLE_COLUMNS[14]}, {$_TABLE_COLUMNS[15]}, {$_TABLE_COLUMNS[16]},
+    {$_TABLE_COLUMNS[17]}, {$_TABLE_COLUMNS[18]}, {$_TABLE_COLUMNS[19]}, {$_TABLE_COLUMNS[20]}, {$_TABLE_COLUMNS[21]}, {$_TABLE_COLUMNS[22]}, {$_TABLE_COLUMNS[23]}) 
+    VALUES ('$data_date', '$data_time', '$bit_depth_m', '$scfm', '$mud_cond_in_mmho', 
+    '$block_pos_m', '$wob_klb', '$bvdepth_m', '$mud_cond_out_mmho', '$torque_klbft', '$rpm', 
+    '$hkld_klb', '$log_depth_m', '$h2s_1_ppm', '$mud_flow_outp', '$totspm', '$sp_press_psi', 
+    '$mud_flow_in_gpm', '$co2_1_perct', '$gas_perct', '$mud_temp_out_c', '$mud_temp_in_c', 
+    '$tank_vol_tot_bbl', '$ropi_m_hr')";
+
+    try {
+        $mysqli->query($sql);
+        echo "success on adding data $data_date:$data_time \n";
+    } catch (mysqli_sql_exception $e) {
+        echo "Error: $e <br>";
+    }
+}
+?>

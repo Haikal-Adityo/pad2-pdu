@@ -19,9 +19,32 @@ while (start <= end) {
 
 console.log(waktu);
 
+function generateTimeIntervals(startDate, endDate,startTime, endTime) {
+    // Convert start and end times to Date objects
+    let start = new Date(startDate + 'T' + startTime + 'Z');
+    let end = new Date(endDate + 'T' + endTime + 'Z');
+
+    // Array to hold the time intervals
+    let timeIntervals = [];
+
+    // Loop to generate the time intervals
+    while (start <= end) {
+        // Format the time to HH:MM:SS and add to the array
+        let timeString = start.toISOString().substr(11, 8);
+        timeIntervals.push(timeString);
+
+        // Add 10 seconds to the start time
+        start.setSeconds(start.getSeconds() + 10);
+    }
+
+    return timeIntervals;
+}
+
+
+
 //! Fetch data from API
 function fetchData() {
-    fetch('http://localhost/pad2-pdu/api_pdu/send_drill_data_api.php') // Assuming you've modified the API to handle the action parameter
+    fetch('http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php') // Assuming you've modified the API to handle the action parameter
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -29,7 +52,15 @@ function fetchData() {
             return response.json();
         })
         .then(data => {
-            console.log('Data fetched successfully:', data); // Log the fetched data for debugging
+            // console.log('Data fetched successfully:', data); // Log the fetched data for debugging
+
+            var startDate = data[0]['data_date'];
+            var endDate = data[data.length - 1]['data_date'];
+            var startTime = data[0]['data_time'];
+            var endtime = data[data.length - 1]['data_time'];
+            var timeIntervals = generateTimeIntervals(startDate, endDate, startTime, endtime);
+            // console.log(timeIntervals);
+
 
             //* Chart 1 Array
             var scfm = data.map(entry => entry.scfm);
@@ -37,7 +68,8 @@ function fetchData() {
             var blockPosition = data.map(entry => entry.block_pos_m);
             var wob = data.map(entry => entry.wob_klb);
             var rop = data.map(entry => entry.ropi_m_hr);
-
+            
+            myChart1.data.labels = timeIntervals;
             myChart1.data.datasets[0].data = scfm;
             myChart1.data.datasets[1].data = mudCondIn;
             myChart1.data.datasets[2].data = blockPosition;
@@ -50,6 +82,7 @@ function fetchData() {
             var rpm = data.map(entry => entry.rpm);
             var hookLoad = data.map(entry => entry.hkld_klb);
 
+            myChart2.data.labels = timeIntervals;
             myChart2.data.datasets[0].data = mudCondOut;
             myChart2.data.datasets[1].data = torque;
             myChart2.data.datasets[2].data = rpm;
@@ -61,7 +94,8 @@ function fetchData() {
             var spm = data.map(entry => entry.totspm);
             var standpipe = data.map(entry => entry.sp_press_psi);
             var mudFlowIn = data.map(entry => entry.mud_flow_in_gpm);
-
+            
+            myChart3.data.labels = timeIntervals;
             myChart3.data.datasets[0].data = h2s;
             myChart3.data.datasets[1].data = mudFlowOut;
             myChart3.data.datasets[2].data = spm;
@@ -75,6 +109,7 @@ function fetchData() {
             var mudTempOut = data.map(entry => entry.mud_temp_out_c);
             var tankVol = data.map(entry => entry.tank_vol_tot_bbl);
 
+            myChart4.data.labels = timeIntervals;
             myChart4.data.datasets[0].data = co2;
             myChart4.data.datasets[1].data = gas;
             myChart4.data.datasets[2].data = mudTempIn;
@@ -90,7 +125,7 @@ function fetchData() {
             
             //! Sidebar
             if (data && Array.isArray(data) && data.length > 0) {
-                const record = data.pop();
+                const record = data[data.length - 1];
                 console.log('Record:', record);
 
                 function updateElements(className, value) {
