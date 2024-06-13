@@ -26,12 +26,30 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                Date
-                            </span>
+                            <span style="margin-right: 10px; margin-top: 7px;">Date</span>
                             <input type="date" class="form-control" id="currentDateTime" aria-label="Date"
                                 aria-describedby="basic-addon1">
                         </div>
+                    </div>
+                    <div class="col-md-2 d-flex">
+                        <span style="margin-right: 10px; margin-top: 7px;">Time</span>
+                        <div class="dropdown">
+                            <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button"
+                                id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                00:00
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">3 Minutes</a></li>
+                                <li><a class="dropdown-item" href="#">5 Minutes</a></li>
+                                <li><a class="dropdown-item" href="#">10 Minutes</a></li>
+                                <li><a class="dropdown-item" href="#">1 Hours</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-left: -150px;">
+                        <form class="form-inline my-2 my-lg-0">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
                     </div>
                 </div>
                 <div class="row">
@@ -409,23 +427,22 @@
                         </div>
 
                         <!-- Chart section -->
-                        <div class="d-flex gap-3 p-3" style="height: 64vh">
-                            <div class="shadow-box p-2 w-100">
+                        <div class="d-flex gap-3 p-3" style="height: 64vh;" id="scrollContainer">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart1"></canvas>
                             </div>
-                            <div class="shadow-box p-2 w-100">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart2"></canvas>
                             </div>
-                            <div class="shadow-box p-2 w-100">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart3"></canvas>
                             </div>
-                            <div class="shadow-box p-2 w-100">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart4"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 </x-app-layout>

@@ -186,6 +186,19 @@ input[type="password"]:focus {
     border: 1px solid #ced4da;
     border-right: 0;
 }
+
 .input-group .form-control {
     border-left: 0;
+}
+
+#scrollContainer {
+    height: 900px;
+    overflow-y: auto;
+
+}
+
+#chartContainer {
+    height: 900px;
+    width: 500px;
+    position: relative;
 }

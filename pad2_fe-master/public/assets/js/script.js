@@ -19,7 +19,7 @@ while (start <= end) {
 
 console.log(waktu);
 
-function generateTimeIntervals(startDate, endDate,startTime, endTime) {
+function generateTimeIntervals(startDate, endDate, startTime, endTime) {
     // Convert start and end times to Date objects
     let start = new Date(startDate + 'T' + startTime + 'Z');
     let end = new Date(endDate + 'T' + endTime + 'Z');
@@ -44,7 +44,7 @@ function generateTimeIntervals(startDate, endDate,startTime, endTime) {
 
 //! Fetch data from API
 function fetchData() {
-    fetch('http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php') // Assuming you've modified the API to handle the action parameter
+    fetch('http://localhost/pad2-pdu.worktrees/dockerbranch/api_pdu/send_drill_data_api.php') // Assuming you've modified the API to handle the action parameter
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -68,7 +68,7 @@ function fetchData() {
             var blockPosition = data.map(entry => entry.block_pos_m);
             var wob = data.map(entry => entry.wob_klb);
             var rop = data.map(entry => entry.ropi_m_hr);
-            
+
             myChart1.data.labels = timeIntervals;
             myChart1.data.datasets[0].data = scfm;
             myChart1.data.datasets[1].data = mudCondIn;
@@ -94,7 +94,7 @@ function fetchData() {
             var spm = data.map(entry => entry.totspm);
             var standpipe = data.map(entry => entry.sp_press_psi);
             var mudFlowIn = data.map(entry => entry.mud_flow_in_gpm);
-            
+
             myChart3.data.labels = timeIntervals;
             myChart3.data.datasets[0].data = h2s;
             myChart3.data.datasets[1].data = mudFlowOut;
@@ -122,7 +122,7 @@ function fetchData() {
             myChart3.update();
             myChart4.update();
 
-            
+
             //! Sidebar
             if (data && Array.isArray(data) && data.length > 0) {
                 const record = data[data.length - 1];
@@ -130,7 +130,7 @@ function fetchData() {
 
                 function updateElements(className, value) {
                     var elements = document.querySelectorAll('.' + className);
-                    elements.forEach(function(element) {
+                    elements.forEach(function (element) {
                         element.textContent = value;
                     });
                 }
