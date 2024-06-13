@@ -26,6 +26,8 @@ if($request_method == "GET") {
     header('Content-Type: application/json');
     echo json_encode($data);
 
-} else {
+}
+
+else {
     header("HTTP/1.0 405 Method Not Allowed");
 }

@@ -1,23 +1,4 @@
-// Data waktu dalam jam
-// var waktu = [
-//     '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30', '14:35', '14:40', '14:45', '14:50', '14:55', '15:00', '15:00', '15:00', '15:00', '15:00', '15:00', '15:00', '15:00', '15:00', '15:00'
-// ];
-
-//! Monitoring Chart
-
 var waktu = [];
-var start = new Date('2022-07-09T00:00:00'); // Start time from 00:00:00
-var end = new Date('2022-07-09T00:03:00');   // End time until the end of the day
-
-while (start <= end) {
-    var hours = start.getHours().toString().padStart(2, '0');
-    var minutes = start.getMinutes().toString().padStart(2, '0');
-    var seconds = start.getSeconds().toString().padStart(2, '0');
-    waktu.push(`${hours}:${minutes}:${seconds}`); // Push formatted time to array
-    start.setSeconds(start.getSeconds() + 10); // Increment by 10 seconds
-}
-
-console.log(waktu);
 
 function generateTimeIntervals(startDate, endDate,startTime, endTime) {
     // Convert start and end times to Date objects
@@ -53,8 +34,9 @@ function fetchData() {
         })
         .then(data => {
 
+  
             // console.log('Data fetched successfully:', data); // Log the fetched data for debugging
-
+            
             var startDate = data[0]['data_date'];
             var endDate = data[data.length - 1]['data_date'];
             var startTime = data[0]['data_time'];
@@ -166,6 +148,12 @@ function fetchData() {
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+}
+
+
+function onDateChange() {
+    var dateInput = document.getElementById('currentDateTime');
+    console.log(dateInput.value);
 }
 
 //* Inisialisasi grafik untuk chart
@@ -336,6 +324,9 @@ var myChart4 = new Chart(ctx4, {
         indexAxis: 'y',
     }
 });
+
+document.getElementById('currentDateTime').addEventListener('change', onDateChange);
+
 
 fetchData(); // Call initially
 

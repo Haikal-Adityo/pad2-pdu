@@ -1,5 +1,5 @@
 <x-app-layout>
-    @extends('layouts.layout')
+    @extends('layouts.historylayout')
 
     <body style="background-color: #F6F6F7;">
 
@@ -409,8 +409,8 @@
                         </div>
 
                         <!-- Chart section -->
-                        <div class="d-flex gap-3 p-3" style="height: 64vh">
-                            <div class="shadow-box p-2 w-100">
+                        <div class="d-flex gap-3 p-3"  id="scrollContainer">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart1"></canvas>
                             </div>
                             <div class="shadow-box p-2 w-100">
