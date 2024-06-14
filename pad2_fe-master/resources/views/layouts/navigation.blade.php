@@ -25,7 +25,7 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </div>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="#" style="margin-left: 32px;">Rig Name </a>
                 </li>
                 <div class="dropdown">
@@ -38,7 +38,7 @@
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </div>
+                </div> -->
                 <li class="nav-item">
                     <a class="nav-link" href="#" style="margin-left: 32px; color: rgba(41, 38, 65, 0.50);">Rig
                         Activity</a>

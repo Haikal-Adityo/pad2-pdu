@@ -24,13 +24,15 @@
 
             <div class="col-md-11" style="width: 96%;">
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                Date
-                            </span>
-                            <input type="date" class="form-control" id="currentDateTime" aria-label="Date"
-                                aria-describedby="basic-addon1">
+                    <div class="col-md-2 d-flex">
+                        <div class="col-auto p-2">
+                            <input type="text" id="inputDate" class="form-control" placeholder="Date (e.g. 2022/07/01)">
+                        </div>
+                        <div class="col-auto p-2">
+                            <input type="text" id="inputTime" class="form-control" placeholder="Time (00.00 - 02.00)">
+                        </div>
+                        <div class="form-inline my-lg-0 p-2">
+                            <button class="btn btn-outline-success my-2 my-sm-0" onclick="searchDatabase()" >Search</button>
                         </div>
                     </div>
                 </div>
@@ -409,23 +411,22 @@
                         </div>
 
                         <!-- Chart section -->
-                        <div class="d-flex gap-3 p-3"  id="scrollContainer">
+                        <div class="d-flex gap-3 p-3" style="height: 64vh;" id="scrollContainer">
                             <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart1"></canvas>
                             </div>
-                            <div class="shadow-box p-2 w-100">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart2"></canvas>
                             </div>
-                            <div class="shadow-box p-2 w-100">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart3"></canvas>
                             </div>
-                            <div class="shadow-box p-2 w-100">
+                            <div class="shadow-box p-2 w-100" id="chartContainer">
                                 <canvas class="chart" id="myChart4"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 </x-app-layout>

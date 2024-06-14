@@ -398,8 +398,8 @@
                         </div>
 
                         <!-- Chart section -->
-                        <div class="d-flex gap-3 p-3" id="scrollContainer">
-                            <div class="shadow-box p-2 w-100" id="chartContainer">
+                        <div class="d-flex gap-3 p-3">
+                            <div class="shadow-box p-2 w-100" id="chartContainerDashboard">
                                 <canvas class="chart" id="myChart1"></canvas>
                             </div>
                             <div class="shadow-box p-2 w-100">

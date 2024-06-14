@@ -24,8 +24,15 @@ function generateTimeIntervals(startDate, endDate,startTime, endTime) {
 
 
 //! Fetch data from API
-function fetchData() {
-    fetch('http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php') // Assuming you've modified the API to handle the action parameter
+function fetchData(data) {
+    fetch('http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -34,6 +41,7 @@ function fetchData() {
         })
         .then(data => {
 
+            console.log(data);
   
             // console.log('Data fetched successfully:', data); // Log the fetched data for debugging
             
@@ -151,11 +159,17 @@ function fetchData() {
 }
 
 
-function onDateChange() {
-    var dateInput = document.getElementById('currentDateTime');
-    console.log(dateInput.value);
+function searchDatabase() {
+    var input1 = document.getElementById('inputDate');
+    var input2 = document.getElementById('inputTime');
+    var times = input2.value.split('-');
+    const data = {
+        date: input1.value,
+        timeUpper: times[1],
+        timeLower: times[0]
+    };
+    fetchData(data);
 }
-
 //* Inisialisasi grafik untuk chart
 var ctx1 = document.getElementById('myChart1').getContext('2d');
 var myChart1 = new Chart(ctx1, {
@@ -325,10 +339,4 @@ var myChart4 = new Chart(ctx4, {
     }
 });
 
-document.getElementById('currentDateTime').addEventListener('change', onDateChange);
-
-
-fetchData(); // Call initially
-
-setInterval(fetchData, 1000); // Call every 5 seconds
 

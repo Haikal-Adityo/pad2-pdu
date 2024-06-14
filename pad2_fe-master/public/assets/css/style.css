@@ -202,3 +202,27 @@ input[type="password"]:focus {
     width: 500px;
     position:relative;
 }
+
+#scrollContainer {
+    height: 900px;
+    overflow-y: auto;
+
+}
+
+#chartContainer {
+    height: 1000px;
+    width: 500px;
+    position: relative;
+}
+
+#scrollContainerDashboard {
+    height: 900px;
+    overflow-y: auto;
+
+}
+
+#chartContainerDashboard {
+    height: 600px;
+    width: 500px;
+    position: relative;
+}
