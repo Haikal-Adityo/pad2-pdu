@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Well;
+use App\Models\WellSensor;
 use Illuminate\Support\Facades\Auth;
 
 class NavigationController extends Controller
