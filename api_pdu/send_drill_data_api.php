@@ -22,7 +22,7 @@ if ($request_method == "OPTIONS") {
 if ($request_method == "GET") {
     if (isset($_GET['sensor_id'])) {
         $sensorId = $_GET['sensor_id'];
-        $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE sensor_id = $sensorId AND data_time < '$current_time_upper' AND data_time >= '$current_time_lower';";
+        $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE well_sensor_id = $sensorId AND data_time < '$current_time_upper' AND data_time >= '$current_time_lower';";
         $result = mysqli_query($mysqli, $query);
         $data = [];
 
@@ -48,7 +48,7 @@ if ($request_method == "GET") {
     } else {
         if (isset($data->sensor_id)) {
             $sensorId = $data->sensor_id;
-            $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE sensor_id = $sensorId AND data_time < '$data->timeUpper' AND data_time >= '$data->timeLower';";
+            $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE well_sensor_id = $sensorId AND data_time < '$data->timeUpper' AND data_time >= '$data->timeLower';";
             $result = mysqli_query($mysqli, $query);
             $res = [];
 
