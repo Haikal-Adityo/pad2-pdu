@@ -29,10 +29,9 @@
                     </li>
                     <div class="dropdown">
                         <select class="form-select" aria-label="Select Well" id="wellDropdown">
-                            <option value="">Select Well</option>
                             @if ($wells->isNotEmpty())
                                 @foreach ($wells as $well)
-                                    <option value="{{ $well->well_id }}">
+                                    <option value="{{ $well->well_id }}" @if ($currentWell->well_id == $well->well_id) selected @endif>
                                         {{ $well->well_name }}
                                     </option>
                                 @endforeach
@@ -40,25 +39,26 @@
                                 <option value="">No wells found</option>
                             @endif
                         </select>
-                    </div>
-
-                    <!-- Sensor Dropdown (Example Dropdown) -->
+                    </div>                                                 
+    
+                    <!-- Sensor Dropdown -->
                     <li class="nav-item">
                         <a class="nav-link" href="#" style="margin-left: 32px;">Sensor</a>
                     </li>
                     <div class="dropdown">
-                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Sensor
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <!-- Add sensor options here if needed -->
-                            {{-- <li><a class="dropdown-item" href="#">Sensor Option 1</a></li>
-                            <li><a class="dropdown-item" href="#">Sensor Option 2</a></li>
-                            <li><a class="dropdown-item" href="#">Sensor Option 3</a></li> --}}
-                        </ul>
-                    </div>
-    
+                        <select class="form-select" aria-label="Select Sensor" id="sensorDropdown">
+                            @if ($sensors->isNotEmpty())
+                                @foreach ($sensors as $sensor)
+                                    <option value="{{ $sensor->well_sensor_id }}" @if ($currentSensorId == $sensor->well_sensor_id) selected @endif>
+                                        Sensor {{ $sensor->well_sensor_id }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="">No sensors found</option>
+                            @endif
+                        </select>
+                    </div>                  
+
                     <!-- Additional Static Links (Example) -->
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="#" style="margin-left: 32px; color: rgba(41, 38, 65, 0.50);">Rig Activity</a>

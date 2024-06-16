@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <script src="{{ asset('assets/js/navigation.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}" ></script>
     <script src="{{ asset('assets/js/datetime.js') }}" ></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

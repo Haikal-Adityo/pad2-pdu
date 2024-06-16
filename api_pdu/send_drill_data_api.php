@@ -15,22 +15,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 if ($request_method == "OPTIONS") {
     // Handle preflight requests
-    // http_response_code(200);
+    http_response_code(200);
     exit();
 }
 
 if ($request_method == "GET") {
-    $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE data_time < '$current_time_upper' AND data_time >= '$current_time_lower';";
-    $result = mysqli_query($mysqli, $query);
-    $data = [];
+    if (isset($_GET['sensor_id'])) {
+        $sensorId = $_GET['sensor_id'];
+        $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE well_sensor_id = $sensorId AND data_time < '$current_time_upper' AND data_time >= '$current_time_lower';";
+        $result = mysqli_query($mysqli, $query);
+        $data = [];
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        $data[] = $row;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    } else {
+        http_response_code(400); // Bad Request
+        header('Content-Type: application/json');
+        echo json_encode(array('error' => 'Missing sensor_id parameter'));
     }
-
-    header('Content-Type: application/json');
-    echo json_encode($data);
-
 } else if ($request_method == "POST") {
     $json_data = file_get_contents("php://input");
     $data = json_decode($json_data);
@@ -40,16 +46,23 @@ if ($request_method == "GET") {
         header('Content-Type: application/json');
         echo json_encode(array('error' => 'Invalid JSON'));
     } else {
-        header('Content-Type: application/json');
-        $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE data_time < '$data->timeUpper' AND data_time >= '$data->timeLower';";
-        $result = mysqli_query($mysqli, $query);
-        $res = [];
+        if (isset($data->sensor_id)) {
+            $sensorId = $data->sensor_id;
+            $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE well_sensor_id = $sensorId AND data_time < '$data->timeUpper' AND data_time >= '$data->timeLower';";
+            $result = mysqli_query($mysqli, $query);
+            $res = [];
 
-        while ($row = mysqli_fetch_assoc($result)) {
-            $res[] = $row;
+            while ($row = mysqli_fetch_assoc($result)) {
+                $res[] = $row;
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($res);
+        } else {
+            http_response_code(400); // Bad Request
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => 'Missing sensor_id parameter'));
         }
-
-        echo json_encode($res);
     }
 } else {
     header("HTTP/1.0 405 Method Not Allowed");

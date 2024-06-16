@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\WellController;
+use App\Http\Controllers\SensorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,11 +13,11 @@ Route::get('/', function () {
 // Route for fetching navigation data
 Route::get('/dashboard', [NavigationController::class, 'show'])->name('dashboard');
 
-// Route for displaying the dashboard view
-// Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
+// Route for showing well details
+Route::get('/dashboard/well/{id}', [WellController::class, 'show'])->name('well.show');
 
+// Route for showing sensor details within a well
+Route::get('/dashboard/well/{well_id}/{sensor_id}', [SensorController::class, 'show'])->name('wellSensor.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
