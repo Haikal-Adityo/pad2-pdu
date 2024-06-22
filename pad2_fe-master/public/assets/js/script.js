@@ -53,9 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Selected sensor ID:', sensorId);
 
             // Construct the API URL with the sensorId parameter
-            var apiUrl = `http://localhost/pad2-pdu/api_pdu/send_drill_data_api.php?sensor_id=${sensorId}`;
-
-            // fetch('http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php') // Assuming you've modified the API to handle the action parameter
+            // var apiUrl = `http://localhost/pad2-pdu/api_pdu/send_drill_data_api.php?sensor_id=${sensorId}`;
+            var apiUrl = `http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php?sensor_id=${sensorId}`;
 
             fetch(apiUrl)
                 .then(response => {
@@ -186,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
     handleSensorChange();
 
     // Set interval to call the function every 1 seconds
-    // setInterval(handleSensorChange, 1000);
+    setInterval(handleSensorChange, 1000);
     
 });
 
@@ -358,8 +357,4 @@ var myChart4 = new Chart(ctx4, {
         indexAxis: 'y',
     }
 });
-
-// fetchData(); // Call initially
-
-// setInterval(fetchData, 1000); // Call every 1 seconds
 

@@ -3,11 +3,12 @@
     $_EXTERNAL_API_HOST = "0.0.0.0";
     $_EXTERNAL_API_PORT = "8020";
     $_EXTERNAL_API_EP = "drill_data/";
-    $_EXTERNAL_API_TABLE = "test_table";
+    $_EXTERNAL_API_TABLE = "well_sensor_data";
 
-    $_INTERNAL_DB_TABLE = "test_table";
+    $_INTERNAL_DB_TABLE = "well_sensor_data";
 
     $_TABLE_COLUMNS = array(
+        "well_sensor_id",
         "data_date",
         "data_time",
         "bit_depth_m",

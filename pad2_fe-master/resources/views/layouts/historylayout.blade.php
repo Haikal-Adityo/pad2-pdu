@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    <script src="{{ asset('assets/js/navigationhistory.js') }}"></script>
     <script src="{{ asset('assets/js/historyscript.js') }}" ></script>
     <script src="{{ asset('assets/js/datetime.js') }}" ></script>
 

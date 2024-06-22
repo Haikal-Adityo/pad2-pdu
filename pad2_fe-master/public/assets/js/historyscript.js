@@ -22,154 +22,170 @@ function generateTimeIntervals(startDate, endDate,startTime, endTime) {
 }
 
 
+function handleSensorChange(data) {
 
-//! Fetch data from API
-function fetchData(data) {
-    fetch('http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    }) 
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+    var sensorDropdown = document.getElementById('sensorDropdown');
+    var sensorId = sensorDropdown.value;
+    console.log(data['date']);
+    if (sensorId) {
+        console.log('Selected sensor ID:', sensorId);
+
+        // var apiUrl = `http://localhost/pad2-pdu/api_pdu/send_drill_data_api.php?sensor_id=${sensorId}`;
+        var apiUrl = `http://127.0.0.1/pad2-pdu/api_pdu/send_drill_data_api.php`;
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
         })
-        .then(data => {
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
 
-            console.log(data);
-  
-            // console.log('Data fetched successfully:', data); // Log the fetched data for debugging
-            
-            var startDate = data[0]['data_date'];
-            var endDate = data[data.length - 1]['data_date'];
-            var startTime = data[0]['data_time'];
-            var endtime = data[data.length - 1]['data_time'];
-            var timeIntervals = generateTimeIntervals(startDate, endDate, startTime, endtime);
-            // console.log(timeIntervals);
-
-
-            //* Chart 1 Array
-            var scfm = data.map(entry => entry.scfm);
-            var mudCondIn = data.map(entry => entry.mud_cond_in_mmho);
-            var blockPosition = data.map(entry => entry.block_pos_m);
-            var wob = data.map(entry => entry.wob_klb);
-            var rop = data.map(entry => entry.ropi_m_hr);
-            
-            myChart1.data.labels = timeIntervals;
-            myChart1.data.datasets[0].data = scfm;
-            myChart1.data.datasets[1].data = mudCondIn;
-            myChart1.data.datasets[2].data = blockPosition;
-            myChart1.data.datasets[3].data = wob;
-            myChart1.data.datasets[4].data = rop;
-
-            //* Chart 2 Array
-            var mudCondOut = data.map(entry => entry.mud_cond_out_mmho);
-            var torque = data.map(entry => entry.torque_klbft);
-            var rpm = data.map(entry => entry.rpm);
-            var hookLoad = data.map(entry => entry.hkld_klb);
-
-            myChart2.data.labels = timeIntervals;
-            myChart2.data.datasets[0].data = mudCondOut;
-            myChart2.data.datasets[1].data = torque;
-            myChart2.data.datasets[2].data = rpm;
-            myChart2.data.datasets[3].data = hookLoad;
-
-            //* Chart 3 Array
-            var h2s = data.map(entry => entry.h2s_1_ppm);
-            var mudFlowOut = data.map(entry => entry.mud_flow_outp);
-            var spm = data.map(entry => entry.totspm);
-            var standpipe = data.map(entry => entry.sp_press_psi);
-            var mudFlowIn = data.map(entry => entry.mud_flow_in_gpm);
-            
-            myChart3.data.labels = timeIntervals;
-            myChart3.data.datasets[0].data = h2s;
-            myChart3.data.datasets[1].data = mudFlowOut;
-            myChart3.data.datasets[2].data = spm;
-            myChart3.data.datasets[3].data = standpipe;
-            myChart3.data.datasets[4].data = mudFlowIn;
-
-            //* Chart 4 Array
-            var co2 = data.map(entry => entry.co2_1_perct);
-            var gas = data.map(entry => entry.gas_perct);
-            var mudTempIn = data.map(entry => entry.mud_temp_in_c);
-            var mudTempOut = data.map(entry => entry.mud_temp_out_c);
-            var tankVol = data.map(entry => entry.tank_vol_tot_bbl);
-
-            myChart4.data.labels = timeIntervals;
-            myChart4.data.datasets[0].data = co2;
-            myChart4.data.datasets[1].data = gas;
-            myChart4.data.datasets[2].data = mudTempIn;
-            myChart4.data.datasets[3].data = mudTempOut;
-            myChart4.data.datasets[4].data = tankVol;
-
-            //* Update the chart
-            myChart1.update();
-            myChart2.update();
-            myChart3.update();
-            myChart4.update();
-
-            
-            //! Sidebar
-            if (data && Array.isArray(data) && data.length > 0) {
-                const record = data[data.length - 1];
-                console.log('Record:', record);
-
-                function updateElements(className, value) {
-                    var elements = document.querySelectorAll('.' + className);
-                    elements.forEach(function(element) {
-                        element.textContent = value;
-                    });
+                // console.log('Data fetched successfully:', data); // Log the fetched data for debugging
+                if(!data[0]) {
+                    alert("No available data");
+                } else {
+                    var startDate = data[0]['data_date'];
+                    var endDate = data[data.length - 1]['data_date'];
+                    var startTime = data[0]['data_time'];
+                    var endtime = data[data.length - 1]['data_time'];
+                    var timeIntervals = generateTimeIntervals(startDate, endDate, startTime, endtime);
+                    // console.log(timeIntervals);
+    
+    
+                    //* Chart 1 Array
+                    var scfm = data.map(entry => entry.scfm);
+                    var mudCondIn = data.map(entry => entry.mud_cond_in_mmho);
+                    var blockPosition = data.map(entry => entry.block_pos_m);
+                    var wob = data.map(entry => entry.wob_klb);
+                    var rop = data.map(entry => entry.ropi_m_hr);
+                    
+                    myChart1.data.labels = timeIntervals;
+                    myChart1.data.datasets[0].data = scfm;
+                    myChart1.data.datasets[1].data = mudCondIn;
+                    myChart1.data.datasets[2].data = blockPosition;
+                    myChart1.data.datasets[3].data = wob;
+                    myChart1.data.datasets[4].data = rop;
+    
+                    //* Chart 2 Array
+                    var mudCondOut = data.map(entry => entry.mud_cond_out_mmho);
+                    var torque = data.map(entry => entry.torque_klbft);
+                    var rpm = data.map(entry => entry.rpm);
+                    var hookLoad = data.map(entry => entry.hkld_klb);
+    
+                    myChart2.data.labels = timeIntervals;
+                    myChart2.data.datasets[0].data = mudCondOut;
+                    myChart2.data.datasets[1].data = torque;
+                    myChart2.data.datasets[2].data = rpm;
+                    myChart2.data.datasets[3].data = hookLoad;
+    
+                    //* Chart 3 Array
+                    var h2s = data.map(entry => entry.h2s_1_ppm);
+                    var mudFlowOut = data.map(entry => entry.mud_flow_outp);
+                    var spm = data.map(entry => entry.totspm);
+                    var standpipe = data.map(entry => entry.sp_press_psi);
+                    var mudFlowIn = data.map(entry => entry.mud_flow_in_gpm);
+                    
+                    myChart3.data.labels = timeIntervals;
+                    myChart3.data.datasets[0].data = h2s;
+                    myChart3.data.datasets[1].data = mudFlowOut;
+                    myChart3.data.datasets[2].data = spm;
+                    myChart3.data.datasets[3].data = standpipe;
+                    myChart3.data.datasets[4].data = mudFlowIn;
+    
+                    //* Chart 4 Array
+                    var co2 = data.map(entry => entry.co2_1_perct);
+                    var gas = data.map(entry => entry.gas_perct);
+                    var mudTempIn = data.map(entry => entry.mud_temp_in_c);
+                    var mudTempOut = data.map(entry => entry.mud_temp_out_c);
+                    var tankVol = data.map(entry => entry.tank_vol_tot_bbl);
+    
+                    myChart4.data.labels = timeIntervals;
+                    myChart4.data.datasets[0].data = co2;
+                    myChart4.data.datasets[1].data = gas;
+                    myChart4.data.datasets[2].data = mudTempIn;
+                    myChart4.data.datasets[3].data = mudTempOut;
+                    myChart4.data.datasets[4].data = tankVol;
+    
+                    //* Update the chart
+                    myChart1.update();
+                    myChart2.update();
+                    myChart3.update();
+                    myChart4.update();
+    
+                    
+                    //! Sidebar
+                    if (data && Array.isArray(data) && data.length > 0) {
+                        const record = data[data.length - 1];
+                        console.log('Record:', record);
+    
+                        function updateElements(className, value) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.textContent = value;
+                            });
+                        }
+    
+                        updateElements('bit_depth', record.bit_depth_m);
+                        updateElements('air_rate', record.scfm);
+                        updateElements('mud_cond_in', record.mud_cond_in_mmho);
+                        updateElements('block_pos', record.block_pos_m);
+                        updateElements('wob', record.wob_klb);
+                        updateElements('rop', record.ropi_m_hr);
+                        updateElements('bv_depth', record.bvdepth_m);
+                        updateElements('mud_cond_out', record.mud_cond_out_mmho);
+                        updateElements('torque', record.torque_klbft);
+                        updateElements('rpm', record.rpm);
+                        updateElements('hookload', record.hkld_klb);
+                        updateElements('log_depth', record.log_depth_m);
+                        updateElements('h2s_1', record.h2s_1_ppm);
+                        updateElements('mud_flow_out', record.mud_flow_outp);
+                        updateElements('total_spm', record.totspm);
+                        updateElements('standpipe_press', record.sp_press_psi);
+                        updateElements('mud_flow_in', record.mud_flow_in_gpm);
+                        updateElements('co2_1', record.co2_1_perct);
+                        updateElements('gas', record.gas_perct);
+                        updateElements('mud_temp_in', record.mud_temp_in_c);
+                        updateElements('mud_temp_out', record.mud_temp_out_c);
+                        updateElements('tank_vol', record.tank_vol_tot_bbl);
+    
+                    } else {
+                        console.error('No data available or incorrect data format');
+                    }
                 }
 
-                updateElements('bit_depth', record.bit_depth_m);
-                updateElements('air_rate', record.scfm);
-                updateElements('mud_cond_in', record.mud_cond_in_mmho);
-                updateElements('block_pos', record.block_pos_m);
-                updateElements('wob', record.wob_klb);
-                updateElements('rop', record.ropi_m_hr);
-                updateElements('bv_depth', record.bvdepth_m);
-                updateElements('mud_cond_out', record.mud_cond_out_mmho);
-                updateElements('torque', record.torque_klbft);
-                updateElements('rpm', record.rpm);
-                updateElements('hookload', record.hkld_klb);
-                updateElements('log_depth', record.log_depth_m);
-                updateElements('h2s_1', record.h2s_1_ppm);
-                updateElements('mud_flow_out', record.mud_flow_outp);
-                updateElements('total_spm', record.totspm);
-                updateElements('standpipe_press', record.sp_press_psi);
-                updateElements('mud_flow_in', record.mud_flow_in_gpm);
-                updateElements('co2_1', record.co2_1_perct);
-                updateElements('gas', record.gas_perct);
-                updateElements('mud_temp_in', record.mud_temp_in_c);
-                updateElements('mud_temp_out', record.mud_temp_out_c);
-                updateElements('tank_vol', record.tank_vol_tot_bbl);
-
-            } else {
-                console.error('No data available or incorrect data format');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
 }
 
-
 function searchDatabase() {
-    var input1 = document.getElementById('inputDate');
+    var input1 = document.getElementById('sensorDates');
     var input2 = document.getElementById('inputTime');
     var times = input2.value.split('-');
+
+    var sensorDropdown = document.getElementById('sensorDropdown');
+    var sensorId = sensorDropdown.value;
     const data = {
         date: input1.value,
         timeUpper: times[1],
-        timeLower: times[0]
+        timeLower: times[0],
+        sensor_id: sensorId
     };
-    fetchData(data);
+    handleSensorChange(data);
 }
+
+
 //* Inisialisasi grafik untuk chart
 var ctx1 = document.getElementById('myChart1').getContext('2d');
 var myChart1 = new Chart(ctx1, {

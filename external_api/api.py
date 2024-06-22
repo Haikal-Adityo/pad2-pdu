@@ -1,11 +1,12 @@
 import MySQLdb
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from datetime import datetime, timedelta
 
 db_config = {
-    'host': 'localhost',
+    'host': 'database',
     'user': 'root',
-    'password': '',
+    'password': 'nanahira774',
     'database': 'drill_test'
 }
 
@@ -14,9 +15,10 @@ app = FastAPI()
 
 class DrillData(BaseModel):
     id: int
+    well_sensor_id: int
     data_date: str
     data_time: str
-    bit_depth: int
+    bit_depth_m: int
     scfm: int
     mud_cond_in_mmho: int
     block_pos_m: int
@@ -39,10 +41,17 @@ class DrillData(BaseModel):
     tank_vol_tot_bbl: int
     ropi_m_hr: int
 
-@app.get("/drill_data/", response_model=list[DrillData])
-def get_all():
+class RequestBody(BaseModel):
+    current_date_upper: str
+    current_time_upper: str
+    current_date_lower: str
+    current_time_lower: str
+
+@app.post("/drill_data/", response_model=list[DrillData])
+# @app.post("/drill_data/", response_model=RequestBody)
+def get_all(request: RequestBody):
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM test_table")
+    cursor.execute(f"SELECT * FROM well_sensor_data WHERE (data_time < '{request.current_time_upper}') AND (data_time >= '{request.current_time_lower}');")
     rows = cursor.fetchall()
     cursor.close()
     if rows is None:
@@ -50,11 +59,22 @@ def get_all():
     
     drill_list = []
     for row in rows:
+
+        data_time_str = row[2].strftime(r'%Y-%m-%d')
+        hours, remainder = divmod(row[3].seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        data_time = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
         drill = dict(zip(DrillData.__fields__.keys(), row))
+        drill['data_date'] = data_time_str
+        drill['data_time'] = data_time
+
         drill_list.append(drill)
 
     return drill_list
 
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8020)

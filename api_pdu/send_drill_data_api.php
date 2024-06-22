@@ -48,7 +48,7 @@ if ($request_method == "GET") {
     } else {
         if (isset($data->sensor_id)) {
             $sensorId = $data->sensor_id;
-            $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE well_sensor_id = $sensorId AND data_time < '$data->timeUpper' AND data_time >= '$data->timeLower';";
+            $query = "SELECT * FROM $_INTERNAL_DB_TABLE WHERE well_sensor_id = $sensorId AND (data_date = '$data->date' AND data_time <= '$data->timeUpper' AND data_time >= '$data->timeLower');";
             $result = mysqli_query($mysqli, $query);
             $res = [];
 

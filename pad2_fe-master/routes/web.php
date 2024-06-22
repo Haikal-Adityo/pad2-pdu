@@ -11,13 +11,13 @@ Route::get('/', function () {
 });
 
 // Route for fetching navigation data
-Route::get('/dashboard', [NavigationController::class, 'show'])->name('dashboard');
+Route::get('/dashboard', [NavigationController::class, 'showDashboard'])->name('dashboard');
 
 // Route for showing well details
-Route::get('/dashboard/well/{id}', [WellController::class, 'show'])->name('well.show');
+Route::get('/dashboard/well/{id}', [WellController::class, 'showDashboard'])->name('well.show');
 
 // Route for showing sensor details within a well
-Route::get('/dashboard/well/{well_id}/{sensor_id}', [SensorController::class, 'show'])->name('wellSensor.show');
+Route::get('/dashboard/well/{well_id}/{sensor_id}', [SensorController::class, 'showDashboard'])->name('wellSensor.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -25,7 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/history', function () {
-    return view('history');
-})->name('history');
+Route::get('/history', [NavigationController::class, 'showHistory'])->name('history');
+
+Route::get('/history/well/{id}', [WellController::class, 'showHistory'])->name('wellHistory.show');
+
+Route::get('/history/well/{well_id}/{sensor_id}', [SensorController::class, 'showHistory'])->name('wellSensorHistory.show');
+
 require __DIR__ . '/auth.php';

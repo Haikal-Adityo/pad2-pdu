@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WellController extends Controller
 {
-    public function show($id)
+    public function showDashboard($id)
     {
         $user = Auth::user();
 
@@ -25,6 +25,28 @@ class WellController extends Controller
         $wellSensors = WellSensor::where('well_id', $id)->get();
 
         return view('well', [
+            'companies' => [$company],
+            'wells' => $wells,
+            'currentWell' => $currentWell,
+            'sensors' => $wellSensors,
+        ]);
+    }
+
+    public function showHistory($id)
+    {
+        $user = Auth::user();
+
+        $company = $user->company;
+
+        $currentWell = Well::findOrFail($id);
+
+        // Fetch the well by its ID
+        $wells = Well::where('company_id', $company->company_id)->get();
+
+        // Fetch sensors for the well
+        $wellSensors = WellSensor::where('well_id', $id)->get();
+
+        return view('wellHistory', [
             'companies' => [$company],
             'wells' => $wells,
             'currentWell' => $currentWell,
